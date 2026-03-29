@@ -1,0 +1,86 @@
+---
+interface BlogPost {
+  title: string;
+  category: string;
+  excerpt: string;
+  body: string[];
+  date: string;
+  readTime: string;
+}
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+const categories = [...new Set(posts.map(p => p.category))];
+---
+
+<section class="blog" id="blog">
+  <div class="container">
+    <div class="section-label scroll-reveal">
+      <span class="section-label__number">05</span>
+      <span class="section-label__text">Food for Thought (Sho-blogs)</span>
+    </div>
+
+    {posts.length > 0 && (
+      <div class="blog__filters scroll-reveal">
+        <button class="blog__filter active" data-filter="all">All</button>
+        {categories.map(c => (
+          <button class="blog__filter" data-filter={c}>
+            {c.charAt(0).toUpperCase() + c.slice(1)}
+          </button>
+        ))}
+      </div>
+    )}
+
+    <div class="blog__grid">
+      {posts.map((post, i) => (
+        <article class="blog-card scroll-reveal" data-category={post.category} style={`--delay: ${(i % 3) * 0.1}s`}>
+          <div class="blog-card__category">{post.category}</div>
+          <h3 class="blog-card__title">{post.title}</h3>
+          <p class="blog-card__excerpt">{post.excerpt}</p>
+          <div class="blog-card__expanded">
+            {(post.body || []).map(p => <p>{p}</p>)}
+          </div>
+          {(post.body && post.body.length > 0) && (
+            <button class="blog-card__toggle">Read More</button>
+          )}
+          <div class="blog-card__meta">
+            <time>{post.date}</time>
+            <span>{post.readTime}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Filters
+  document.querySelectorAll('.blog__filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.blog__filter').forEach(f => f.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = (btn as HTMLElement).dataset.filter;
+
+      document.querySelectorAll('.blog-card').forEach(card => {
+        const el = card as HTMLElement;
+        if (filter === 'all' || el.dataset.category === filter) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Toggles
+  document.querySelectorAll('.blog-card__toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = (btn as HTMLElement).previousElementSibling as HTMLElement;
+      const isOpen = expanded.classList.toggle('open');
+      btn.textContent = isOpen ? 'Read Less' : 'Read More';
+    });
+  });
+</script>

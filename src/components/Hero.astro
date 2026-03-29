@@ -1,0 +1,203 @@
+---
+interface Props {
+  greeting: string;
+  name: string;
+  surname: string;
+  tagline: string;
+}
+
+const { greeting, name, surname, tagline } = Astro.props;
+---
+
+<section class="hero" id="hero">
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero__content">
+    {greeting && <p class="hero__greeting reveal-text">{greeting}</p>}
+    <h1 class="hero__name">
+      <span class="reveal-text" style="--delay: 0.15s">{name}</span>
+      <span class="reveal-text accent" style="--delay: 0.3s">{surname}</span>
+    </h1>
+    {tagline && <p class="hero__tagline reveal-text" style="--delay: 0.5s">{tagline}</p>}
+    <div class="hero__scroll reveal-text" style="--delay: 0.8s">
+      <div class="hero__scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </div>
+  <div class="hero__noise"></div>
+</section>
+
+<script>
+  function initGeometryCanvas() {
+    const canvas = document.getElementById('particleCanvas') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    let mouse = { x: null as number | null, y: null as number | null };
+    let time = 0;
+    let w: number, h: number, cx: number, cy: number, baseRadius: number;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      cx = w / 2;
+      cy = h / 2;
+      baseRadius = Math.min(w, h) * 0.28;
+    }
+
+    function polygon(x: number, y: number, radius: number, sides: number, rotation: number) {
+      ctx.beginPath();
+      for (let i = 0; i <= sides; i++) {
+        const angle = (i / sides) * Math.PI * 2 + rotation;
+        const px = x + Math.cos(angle) * radius;
+        const py = y + Math.sin(angle) * radius;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+    }
+
+    function getVertices(x: number, y: number, radius: number, sides: number, rotation: number) {
+      const verts = [];
+      for (let i = 0; i < sides; i++) {
+        const angle = (i / sides) * Math.PI * 2 + rotation;
+        verts.push({ x: x + Math.cos(angle) * radius, y: y + Math.sin(angle) * radius });
+      }
+      return verts;
+    }
+
+    function draw() {
+      time += 0.003;
+      ctx.clearRect(0, 0, w, h);
+
+      let mx = 0, my = 0;
+      if (mouse.x !== null && mouse.y !== null) {
+        mx = (mouse.x - cx) * 0.015;
+        my = (mouse.y - cy) * 0.015;
+      }
+
+      const ocx = cx + mx;
+      const ocy = cy + my;
+
+      // Outer rotating hexagon
+      ctx.strokeStyle = 'rgba(200, 164, 92, 0.06)';
+      ctx.lineWidth = 1;
+      polygon(ocx, ocy, baseRadius * 1.4, 6, time * 0.3);
+      ctx.stroke();
+
+      // Metatron's Cube
+      const innerR = baseRadius * 0.55;
+      const outerR = baseRadius;
+      const rot = time * 0.5;
+
+      const innerVerts = getVertices(ocx, ocy, innerR, 6, rot);
+      const outerVerts = getVertices(ocx, ocy, outerR, 6, rot + Math.PI / 6);
+      const allVerts = [{ x: ocx, y: ocy }, ...innerVerts, ...outerVerts];
+
+      // Vertex circles
+      ctx.strokeStyle = 'rgba(200, 164, 92, 0.04)';
+      ctx.lineWidth = 0.5;
+      allVerts.forEach(v => {
+        ctx.beginPath();
+        ctx.arc(v.x, v.y, innerR * 0.35, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Connection lines
+      ctx.strokeStyle = 'rgba(200, 164, 92, 0.08)';
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < allVerts.length; i++) {
+        for (let j = i + 1; j < allVerts.length; j++) {
+          ctx.beginPath();
+          ctx.moveTo(allVerts[i].x, allVerts[i].y);
+          ctx.lineTo(allVerts[j].x, allVerts[j].y);
+          ctx.stroke();
+        }
+      }
+
+      // Inner + outer hexagons
+      ctx.strokeStyle = 'rgba(200, 164, 92, 0.12)';
+      ctx.lineWidth = 0.8;
+      polygon(ocx, ocy, innerR, 6, rot);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(200, 164, 92, 0.08)';
+      polygon(ocx, ocy, outerR, 6, rot + Math.PI / 6);
+      ctx.stroke();
+
+      // Star of David triangles
+      ctx.strokeStyle = 'rgba(59, 166, 143, 0.1)';
+      ctx.lineWidth = 0.8;
+      polygon(ocx, ocy, innerR * 0.9, 3, rot);
+      ctx.stroke();
+      polygon(ocx, ocy, innerR * 0.9, 3, rot + Math.PI);
+      ctx.stroke();
+
+      // Pulsing center
+      const pulse = Math.sin(time * 3) * 0.3 + 0.7;
+      ctx.strokeStyle = `rgba(200, 164, 92, ${0.15 * pulse})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(ocx, ocy, innerR * 0.12 * pulse, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = `rgba(200, 164, 92, ${0.3 * pulse})`;
+      ctx.beginPath();
+      ctx.arc(ocx, ocy, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Vertex dots
+      ctx.fillStyle = 'rgba(200, 164, 92, 0.25)';
+      innerVerts.forEach(v => { ctx.beginPath(); ctx.arc(v.x, v.y, 2, 0, Math.PI * 2); ctx.fill(); });
+
+      ctx.fillStyle = 'rgba(200, 164, 92, 0.15)';
+      outerVerts.forEach(v => { ctx.beginPath(); ctx.arc(v.x, v.y, 1.5, 0, Math.PI * 2); ctx.fill(); });
+
+      // Orbiting micro-shapes
+      for (let i = 0; i < 5; i++) {
+        const orbitR = baseRadius * (0.7 + i * 0.2);
+        const speed = 0.15 + i * 0.08;
+        const angle = time * speed + (i * Math.PI * 2 / 5);
+        const ox = ocx + Math.cos(angle) * orbitR;
+        const oy = ocy + Math.sin(angle) * orbitR;
+        const sides = 3 + (i % 3);
+        const size = 4 + i * 1.5;
+
+        ctx.strokeStyle = `rgba(200, 164, 92, ${0.08 + i * 0.02})`;
+        ctx.lineWidth = 0.5;
+        polygon(ox, oy, size, sides, time * 2 + i);
+        ctx.stroke();
+      }
+
+      // Outer dot ring
+      for (let i = 0; i < 36; i++) {
+        const angle = (i / 36) * Math.PI * 2 + time * 0.1;
+        const r = baseRadius * 1.25;
+        const wobble = Math.sin(time * 2 + i * 0.5) * 3;
+        const dx = ocx + Math.cos(angle) * (r + wobble);
+        const dy = ocy + Math.sin(angle) * (r + wobble);
+        const alpha = 0.05 + Math.sin(time * 3 + i) * 0.03;
+
+        ctx.fillStyle = `rgba(200, 164, 92, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(dx, dy, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Corner accents
+      ctx.strokeStyle = 'rgba(200, 164, 92, 0.06)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.moveTo(30, 70); ctx.lineTo(30, 30); ctx.lineTo(70, 30); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(w - 30, h - 70); ctx.lineTo(w - 30, h - 30); ctx.lineTo(w - 70, h - 30); ctx.stroke();
+
+      requestAnimationFrame(draw);
+    }
+
+    canvas.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+    window.addEventListener('resize', resize);
+
+    resize();
+    draw();
+  }
+
+  initGeometryCanvas();
+</script>

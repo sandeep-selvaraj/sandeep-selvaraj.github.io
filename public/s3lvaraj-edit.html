@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Content Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-toast" id="toast"></div>
+
+  <header class="admin-header">
+    <h1>Content Editor</h1>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="importJson()">Import JSON</button>
+      <button class="admin-btn admin-btn--primary" onclick="exportJson()">Export JSON</button>
+      <a href="/" class="admin-btn">View Site</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="admin-section">
+    <h2>Hero</h2>
+    <div class="admin-field">
+      <label>Greeting</label>
+      <input type="text" id="heroGreeting" placeholder="e.g. Hello, I'm">
+    </div>
+    <div class="admin-field">
+      <label>First Name</label>
+      <input type="text" id="heroName" placeholder="e.g. Sandeep">
+    </div>
+    <div class="admin-field">
+      <label>Surname</label>
+      <input type="text" id="heroSurname" placeholder="e.g. Selvaraj">
+    </div>
+    <div class="admin-field">
+      <label>Tagline</label>
+      <input type="text" id="heroTagline" placeholder="e.g. Building at the intersection of intelligence and perception">
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="admin-section">
+    <h2>About</h2>
+    <div class="admin-field">
+      <label>Headline</label>
+      <input type="text" id="aboutHeadline" placeholder="e.g. I explore how machines see, think, and touch.">
+    </div>
+    <div id="aboutParagraphs"></div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="addAboutParagraph()">+ Add Paragraph</button>
+    </div>
+    <div class="admin-field" style="margin-top: 1rem;">
+      <label>Tags (comma-separated)</label>
+      <input type="text" id="aboutTags" placeholder="e.g. LLMs, Computer Vision, Robotics, Rust">
+    </div>
+
+    <h3>Personal Details</h3>
+    <div class="admin-field">
+      <label>Location</label>
+      <input type="text" id="aboutLocation" placeholder="e.g. Munich, Germany">
+    </div>
+    <div class="admin-field">
+      <label>Ethnicity / Background</label>
+      <input type="text" id="aboutEthnicity" placeholder="e.g. Indian, born and raised in Chennai">
+    </div>
+
+    <h3>Education</h3>
+    <div id="educationList"></div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="addEducation()">+ Add Education</button>
+    </div>
+
+    <h3>Experience</h3>
+    <div id="experienceList"></div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="addExperience()">+ Add Experience</button>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="admin-section">
+    <h2>Projects</h2>
+    <div id="projectsList"></div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="addProject()">+ Add Project</button>
+    </div>
+  </div>
+
+  <!-- SOCIALS -->
+  <div class="admin-section">
+    <h2>Socials</h2>
+    <div id="socialsList"></div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="addSocial()">+ Add Social</button>
+    </div>
+  </div>
+
+  <!-- BLOG -->
+  <div class="admin-section">
+    <h2>Blog Posts</h2>
+    <div id="blogList"></div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="addBlogPost()">+ Add Blog Post</button>
+    </div>
+  </div>
+
+  <!-- SAVE BAR -->
+  <div style="position: sticky; bottom: 1rem; display: flex; gap: 1rem; justify-content: center; padding: 1rem;">
+    <button class="admin-btn admin-btn--primary" onclick="saveToLocalStorage()" style="font-size: 1rem; padding: 0.8rem 2rem;">
+      Save Draft
+    </button>
+    <button class="admin-btn admin-btn--primary" onclick="exportJson()" style="font-size: 1rem; padding: 0.8rem 2rem;">
+      Download content.json
+    </button>
+  </div>
+
+  <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleFileImport(event)">
+
+  <script>
+    let data = {
+      hero: { greeting: '', name: '', surname: '', tagline: '' },
+      about: { headline: '', paragraphs: [], tags: [], location: '', ethnicity: '', education: [], experience: [] },
+      projects: [],
+      socials: [],
+      blog: []
+    };
+
+    // ---- TOAST ----
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ---- COLLECT DATA FROM FORM ----
+    function collectData() {
+      data.hero.greeting = document.getElementById('heroGreeting').value;
+      data.hero.name = document.getElementById('heroName').value;
+      data.hero.surname = document.getElementById('heroSurname').value;
+      data.hero.tagline = document.getElementById('heroTagline').value;
+
+      data.about.headline = document.getElementById('aboutHeadline').value;
+      data.about.paragraphs = Array.from(document.querySelectorAll('.about-para')).map(el => el.value).filter(Boolean);
+      data.about.tags = document.getElementById('aboutTags').value.split(',').map(s => s.trim()).filter(Boolean);
+      data.about.location = document.getElementById('aboutLocation').value;
+      data.about.ethnicity = document.getElementById('aboutEthnicity').value;
+
+      data.about.education = Array.from(document.querySelectorAll('.edu-item')).map(el => ({
+        degree: el.querySelector('.edu-degree').value,
+        school: el.querySelector('.edu-school').value,
+        years: el.querySelector('.edu-years').value,
+        thesis: el.querySelector('.edu-thesis').value,
+        papers: el.querySelector('.edu-papers').value.split('\n').filter(Boolean).map(line => {
+          const match = line.match(/^\[(.+?)\]\((.+?)\)$/);
+          if (match) return { title: match[1], url: match[2] };
+          return { title: line };
+        }),
+        notes: el.querySelector('.edu-notes').value
+      }));
+
+      data.about.experience = Array.from(document.querySelectorAll('.exp-item')).map(el => ({
+        role: el.querySelector('.exp-role').value,
+        company: el.querySelector('.exp-company').value,
+        companyUrl: el.querySelector('.exp-company-url').value || undefined,
+        years: el.querySelector('.exp-years').value,
+        description: el.querySelector('.exp-desc').value.split('\n').map(s => s.trim()).filter(Boolean),
+        techstack: el.querySelector('.exp-techstack').value.split(',').map(s => s.trim()).filter(Boolean)
+      }));
+
+      data.projects = Array.from(document.querySelectorAll('.project-item')).map(el => ({
+        name: el.querySelector('.proj-name').value,
+        description: el.querySelector('.proj-desc').value,
+        url: el.querySelector('.proj-url').value,
+        language: el.querySelector('.proj-lang').value,
+        tags: el.querySelector('.proj-tags').value.split(',').map(s => s.trim()).filter(Boolean)
+      }));
+
+      data.socials = Array.from(document.querySelectorAll('.social-item')).map(el => ({
+        platform: el.querySelector('.soc-platform').value,
+        url: el.querySelector('.soc-url').value,
+        enabled: el.querySelector('.soc-enabled').checked
+      }));
+
+      data.blog = Array.from(document.querySelectorAll('.blog-item')).map(el => ({
+        title: el.querySelector('.blog-title').value,
+        category: el.querySelector('.blog-category').value,
+        excerpt: el.querySelector('.blog-excerpt').value,
+        body: el.querySelector('.blog-body').value.split('\n\n').filter(Boolean),
+        date: el.querySelector('.blog-date').value,
+        readTime: el.querySelector('.blog-readtime').value
+      }));
+
+      return data;
+    }
+
+    // ---- POPULATE FORM FROM DATA ----
+    function populateForm() {
+      document.getElementById('heroGreeting').value = data.hero.greeting || '';
+      document.getElementById('heroName').value = data.hero.name || '';
+      document.getElementById('heroSurname').value = data.hero.surname || '';
+      document.getElementById('heroTagline').value = data.hero.tagline || '';
+
+      document.getElementById('aboutHeadline').value = data.about.headline || '';
+      document.getElementById('aboutTags').value = (data.about.tags || []).join(', ');
+
+      document.getElementById('aboutLocation').value = data.about.location || '';
+      document.getElementById('aboutEthnicity').value = data.about.ethnicity || '';
+
+      const paraContainer = document.getElementById('aboutParagraphs');
+      paraContainer.innerHTML = '';
+      (data.about.paragraphs || []).forEach(p => addAboutParagraph(p));
+
+      const eduContainer = document.getElementById('educationList');
+      eduContainer.innerHTML = '';
+      (data.about.education || []).forEach(e => addEducation(e));
+
+      const expContainer = document.getElementById('experienceList');
+      expContainer.innerHTML = '';
+      (data.about.experience || []).forEach(e => addExperience(e));
+
+      const projContainer = document.getElementById('projectsList');
+      projContainer.innerHTML = '';
+      (data.projects || []).forEach(p => addProject(p));
+
+      const socContainer = document.getElementById('socialsList');
+      socContainer.innerHTML = '';
+      (data.socials || []).forEach(s => addSocial(s));
+
+      const blogContainer = document.getElementById('blogList');
+      blogContainer.innerHTML = '';
+      (data.blog || []).forEach(b => addBlogPost(b));
+    }
+
+    // ---- ABOUT PARAGRAPHS ----
+    function addAboutParagraph(text) {
+      const container = document.getElementById('aboutParagraphs');
+      const div = document.createElement('div');
+      div.className = 'admin-item';
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <strong>Paragraph</strong>
+          <button class="admin-btn admin-btn--danger" onclick="this.closest('.admin-item').remove()">Remove</button>
+        </div>
+        <textarea class="about-para" placeholder="Write a paragraph...">${text || ''}</textarea>
+      `;
+      container.appendChild(div);
+    }
+
+    // ---- EDUCATION ----
+    function addEducation(edu) {
+      const container = document.getElementById('educationList');
+      const div = document.createElement('div');
+      div.className = 'admin-item edu-item';
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <strong>${edu ? edu.degree : 'New Education'}</strong>
+          <button class="admin-btn admin-btn--danger" onclick="this.closest('.edu-item').remove()">Remove</button>
+        </div>
+        <div class="admin-field"><label>Degree / Program</label><input type="text" class="edu-degree" value="${edu ? edu.degree : ''}" placeholder="e.g. M.Sc. Computer Science"></div>
+        <div class="admin-field"><label>School / University</label><input type="text" class="edu-school" value="${edu ? edu.school : ''}" placeholder="e.g. TU Munich"></div>
+        <div class="admin-field"><label>Years</label><input type="text" class="edu-years" value="${edu ? edu.years : ''}" placeholder="e.g. 2020 - 2023"></div>
+        <div class="admin-field"><label>Thesis Topic</label><input type="text" class="edu-thesis" value="${edu ? (edu.thesis || '') : ''}" placeholder="e.g. Neural Radiance Fields for Scene Reconstruction"></div>
+        <div class="admin-field"><label>Papers (one per line, use [Title](URL) for links)</label><textarea class="edu-papers" placeholder="[Paper Title](https://arxiv.org/...)">${edu && edu.papers ? edu.papers.map(p => p.url ? '[' + p.title + '](' + p.url + ')' : p.title).join('\n') : ''}</textarea></div>
+        <div class="admin-field"><label>Notes</label><input type="text" class="edu-notes" value="${edu ? (edu.notes || '') : ''}" placeholder="e.g. Graduated with distinction"></div>
+      `;
+      container.appendChild(div);
+    }
+
+    // ---- EXPERIENCE ----
+    function addExperience(exp) {
+      const container = document.getElementById('experienceList');
+      const div = document.createElement('div');
+      div.className = 'admin-item exp-item';
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <strong>${exp ? exp.role : 'New Role'}</strong>
+          <button class="admin-btn admin-btn--danger" onclick="this.closest('.exp-item').remove()">Remove</button>
+        </div>
+        <div class="admin-field"><label>Role / Title</label><input type="text" class="exp-role" value="${exp ? exp.role : ''}" placeholder="e.g. ML Engineer"></div>
+        <div class="admin-field"><label>Company</label><input type="text" class="exp-company" value="${exp ? exp.company : ''}" placeholder="e.g. Acme Corp"></div>
+        <div class="admin-field"><label>Company URL (optional)</label><input type="url" class="exp-company-url" value="${exp ? (exp.companyUrl || '') : ''}" placeholder="e.g. https://elevait.de"></div>
+        <div class="admin-field"><label>Years</label><input type="text" class="exp-years" value="${exp ? exp.years : ''}" placeholder="e.g. 2023 - Present"></div>
+        <div class="admin-field"><label>Description (one bullet point per line)</label><textarea class="exp-desc" placeholder="Built custom OCR pipelines&#10;Fine-tuned VLMs for zero-shot inference">${exp ? (Array.isArray(exp.description) ? exp.description.join('\n') : (exp.description || '')) : ''}</textarea></div>
+        <div class="admin-field"><label>Tech Stack (comma-separated)</label><input type="text" class="exp-techstack" value="${exp ? (exp.techstack || []).join(', ') : ''}" placeholder="e.g. Python, PyTorch, Docker, Jenkins"></div>
+      `;
+      container.appendChild(div);
+    }
+
+    // ---- PROJECTS ----
+    function addProject(proj) {
+      const container = document.getElementById('projectsList');
+      const div = document.createElement('div');
+      div.className = 'admin-item project-item';
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <strong>${proj ? proj.name : 'New Project'}</strong>
+          <button class="admin-btn admin-btn--danger" onclick="this.closest('.project-item').remove()">Remove</button>
+        </div>
+        <div class="admin-field"><label>Name</label><input type="text" class="proj-name" value="${proj ? proj.name : ''}"></div>
+        <div class="admin-field"><label>Description</label><textarea class="proj-desc">${proj ? proj.description : ''}</textarea></div>
+        <div class="admin-field"><label>GitHub URL</label><input type="url" class="proj-url" value="${proj ? proj.url : ''}"></div>
+        <div class="admin-field"><label>Language</label><input type="text" class="proj-lang" value="${proj ? proj.language : ''}" placeholder="e.g. Python, Rust"></div>
+        <div class="admin-field"><label>Tags (comma-separated)</label><input type="text" class="proj-tags" value="${proj ? (proj.tags || []).join(', ') : ''}"></div>
+      `;
+      container.appendChild(div);
+    }
+
+    // ---- SOCIALS ----
+    function addSocial(soc) {
+      const container = document.getElementById('socialsList');
+      const div = document.createElement('div');
+      div.className = 'admin-item social-item';
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <strong>${soc ? soc.platform : 'New Social'}</strong>
+          <button class="admin-btn admin-btn--danger" onclick="this.closest('.social-item').remove()">Remove</button>
+        </div>
+        <div class="admin-field"><label>Platform</label>
+          <select class="soc-platform">
+            <option value="github" ${soc && soc.platform === 'github' ? 'selected' : ''}>GitHub</option>
+            <option value="discord" ${soc && soc.platform === 'discord' ? 'selected' : ''}>Discord</option>
+            <option value="linkedin" ${soc && soc.platform === 'linkedin' ? 'selected' : ''}>LinkedIn</option>
+            <option value="x" ${soc && soc.platform === 'x' ? 'selected' : ''}>X / Twitter</option>
+          </select>
+        </div>
+        <div class="admin-field"><label>URL</label><input type="url" class="soc-url" value="${soc ? soc.url : ''}"></div>
+        <div class="admin-field"><label><input type="checkbox" class="soc-enabled" ${soc && soc.enabled ? 'checked' : ''}> Enabled</label></div>
+      `;
+      container.appendChild(div);
+    }
+
+    // ---- BLOG POSTS ----
+    function addBlogPost(post) {
+      const container = document.getElementById('blogList');
+      const div = document.createElement('div');
+      div.className = 'admin-item blog-item';
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <strong>${post ? post.title : 'New Post'}</strong>
+          <button class="admin-btn admin-btn--danger" onclick="this.closest('.blog-item').remove()">Remove</button>
+        </div>
+        <div class="admin-field"><label>Title</label><input type="text" class="blog-title" value="${post ? post.title : ''}"></div>
+        <div class="admin-field"><label>Category</label>
+          <select class="blog-category">
+            <option value="software" ${post && post.category === 'software' ? 'selected' : ''}>Software</option>
+            <option value="sports" ${post && post.category === 'sports' ? 'selected' : ''}>Sports</option>
+            <option value="movies" ${post && post.category === 'movies' ? 'selected' : ''}>Movies</option>
+            <option value="art" ${post && post.category === 'art' ? 'selected' : ''}>Art</option>
+            <option value="politics" ${post && post.category === 'politics' ? 'selected' : ''}>Politics</option>
+          </select>
+        </div>
+        <div class="admin-field"><label>Excerpt (short preview)</label><textarea class="blog-excerpt">${post ? post.excerpt : ''}</textarea></div>
+        <div class="admin-field"><label>Full Body (separate paragraphs with blank lines)</label><textarea class="blog-body" style="min-height:150px">${post ? (post.body || []).join('\n\n') : ''}</textarea></div>
+        <div class="admin-field"><label>Date</label><input type="text" class="blog-date" value="${post ? post.date : ''}" placeholder="e.g. 2026"></div>
+        <div class="admin-field"><label>Read Time</label><input type="text" class="blog-readtime" value="${post ? post.readTime : ''}" placeholder="e.g. 5 min read"></div>
+      `;
+      container.appendChild(div);
+    }
+
+    // ---- SAVE / LOAD ----
+    function saveToLocalStorage() {
+      collectData();
+      localStorage.setItem('siteContent', JSON.stringify(data, null, 2));
+      toast('Draft saved to browser storage');
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('siteContent');
+      if (saved) {
+        try {
+          data = JSON.parse(saved);
+          return true;
+        } catch(e) {}
+      }
+      return false;
+    }
+
+    // ---- IMPORT / EXPORT ----
+    function exportJson() {
+      collectData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'content.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('content.json downloaded — replace the file in your repo');
+    }
+
+    function importJson() {
+      document.getElementById('fileInput').click();
+    }
+
+    function handleFileImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          data = JSON.parse(e.target.result);
+          populateForm();
+          toast('JSON imported successfully');
+        } catch(err) {
+          toast('Invalid JSON file');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    // ---- INIT ----
+    async function init() {
+      // Try localStorage first, then fetch content.json
+      if (!loadFromLocalStorage()) {
+        try {
+          const res = await fetch('content.json');
+          data = await res.json();
+        } catch(e) {}
+      }
+      populateForm();
+    }
+
+    init();
+  </script>
+</body>
+</html>

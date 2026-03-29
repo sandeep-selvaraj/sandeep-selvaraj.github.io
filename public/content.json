@@ -1,0 +1,242 @@
+{
+  "hero": {
+    "greeting": "Good Day, Healthy Life, Dear Vistor! ",
+    "name": "Sandeep",
+    "surname": "Selvaraj",
+    "tagline": "Engineer (Software, Data and ML)"
+  },
+  "about": {
+    "headline": "I build LLMs (Machine Learning), build orchestration pipelines (Data) and aid in producing usable software.",
+    "paragraphs": [
+      "I get my hands dirty with low-level tools like PyTorch and Transformers, building custom, scalable models for extracting information from documents -- PDFs, images, scans, you name it. I'm also deep into leveraging LLMs and VLMs for zero-shot document extraction, with and without RAG.",
+      "Day to day, I'm a Python, Docker and Jenkins kind of engineer, though I've spent quality time with C, SQL and CUDA in past lives.",
+      "When I'm not staring at my computer all day, you'll find me playing or watching sports (football, F1 and the gym), trying to still master the guitar, or tinkering with hobby projects -- think robotics, home automation, and the occasional vibe-coded side quest."
+    ],
+    "tags": [
+      "VLMS",
+      "LLMs",
+      "Robotics",
+      "Deep Learning"
+    ],
+    "location": "",
+    "ethnicity": "Indian, born and raised in Bangalore. (My mother tongue and native language is Tamil)",
+    "education": [
+      {
+        "degree": "M.Sc. Computational Modelling and Simulation (Spec. in Visual Computing)",
+        "school": "Technical University Dresden",
+        "years": "2022-2024",
+        "thesis": "OmniGrasp: Learning to grasp with mult-finger in real experiment setup",
+        "papers": [
+          {
+            "title": "Learning to Play Piano in the Real World(https://arxiv.org/abs/2503.15481)"
+          }
+        ],
+        "notes": "Grade: 1.9"
+      },
+      {
+        "degree": "B.E. Mechatronics",
+        "school": "Visveshwaraya Technical University",
+        "years": "2016-2020",
+        "thesis": "MagHoverboard: Design and study of magnetically levitating Hoverboard",
+        "papers": [],
+        "notes": "Grade: 1.7"
+      }
+    ],
+    "experience": [
+      {
+        "role": "Machine Learning Engineer",
+        "company": "elevait GmBH",
+        "companyUrl": "https://www.elevait.de/",
+        "years": "2024-Present",
+        "description": [
+          "Worked on building customized models for information extraction and multi-modal classification.",
+          "Built ML dev pipelines with Dagster and DVC.",
+          "Built microservices to deploy the ML-based services in the varied customer pipelines.",
+          "Integrated MLFlow for monitoring and automated deployments of best-trained models, introducing MLOps practices into the team.",
+          "Leveraged OSS small language models for zero-shot structured extraction and fine-tuning.",
+          "Built LLM-based extraction pipelines leveraging 3rd party commercial LLMs (OpenAI) and introduced the concept of automated prompt tuning (Using DSpy).",
+          "Researched and provided an option for self-hosting of LLMs using vLLMs.",
+          "Designed and built E2E pipelines using Dagsters for training, evaluation, and inference of ML models."
+        ],
+        "techstack": [
+          "Python",
+          "FastAPI",
+          "Pytorch",
+          "Django",
+          "Transformers",
+          "uv",
+          "Dagster",
+          "dvc",
+          "DSPy",
+          "Haystack",
+          "vLLM",
+          "Docker",
+          "Jenkins",
+          "GIT",
+          "Monorepos (using uv workspaces)",
+          "Mongo"
+        ]
+      },
+      {
+        "role": "Machine Learning Engineer (werkstudent)",
+        "company": "elevait GmBH",
+        "companyUrl": "https://www.elevait.de/",
+        "years": "2022-2024",
+        "description": [
+          "Built a utility process to extract information from HTML for a government-funded project on Nutrition.",
+          "Trained and benchmarked multi-modal(Image, Text, and Layout) models for classification.",
+          "Researched and developed Text and Layout small language models for information extraction. (Using RoPE, T5-based transformer as the backbone).",
+          "Full-stack ML web application to visualize training benchmarks and train models.",
+          "Built a text-based classification model using big models (Llama 1b, etc.) on a limited hardware budget (V100 32Gb), by leveraging Lora and quantization methods."
+        ],
+        "techstack": [
+          "Python",
+          "Pytorch",
+          "Tranformers",
+          "OpenCV",
+          "BeautifulSoup",
+          "Jenkins",
+          "GIT",
+          "OpenAI",
+          "Django"
+        ]
+      },
+      {
+        "role": "Software Development Engineer",
+        "company": "Cognizant Technology Solutions",
+        "companyUrl": "https://www.cognizant.com/us/en",
+        "years": "2020-2022",
+        "description": [
+          "Worked on creating interfaces between legacy systems and SAP, and also maintained end-to-end live data flow.",
+          "Built RESTful APIs so that multiple stakeholders can access relevant data from SAP HANA DB.",
+          "Monitored and configured the functional aspects in SAP systems to suit the business case.",
+          "Assisted the team in creating and maintaining multiple tables in the Database, as a part of database modelling.",
+          "Worked on tools to extract data from SAP and helped the team in Data Remediation processes.",
+          "Primarily built bug free and proficient codes and help review peer's code.",
+          "Worked using an Agile Methodology, thereby abiding to daily scrum ceremonies and completing all the work within its corresponding sprint.",
+          "As Part of R&D team:",
+          "Built a multilingual Chatbot(using Rasa ), for assisting the end users on any user related queries and for raising tickets for any problem encountered.",
+          "Worked on an interactive Web User Interface, which could retrieve data from multiple sources such as SAP Dbs, Data Lake, and other legacy systems for a particular product ID.",
+          "Built an interactive dashboard to help analyze and visualize data picked up from the Data Lake.",
+          "Worked on an interactive GUI SCADA application to monitor activities in a factory."
+        ],
+        "techstack": [
+          "Python",
+          "C",
+          "GIT",
+          "Jenkins",
+          "Azure Cloud",
+          "AWS Cloud",
+          "Airflow",
+          "SAP Systems",
+          "AWS S3",
+          "Mongo",
+          "Postgres",
+          "MySQL",
+          "Tensorflow"
+        ]
+      },
+      {
+        "role": "Software Engineer Intern",
+        "company": "Aroha Technologies",
+        "years": "2019",
+        "description": [
+          "I built a Web scrapping utility that was used to extract data from websites.",
+          "Since the client was looking to outsource its resources in the correct workplace, all the data was from job posting websites.",
+          "The extracted data was stored in a Postgres database and then visualized.",
+          "Deployed the tool using Heroku so that it can be used by anyone in the company."
+        ],
+        "techstack": [
+          "Python",
+          "Heroku",
+          "GIT",
+          "Postgres"
+        ]
+      }
+    ]
+  },
+  "projects": [
+    {
+      "name": "Hafermilch",
+      "description": "Multi-persona LLM agents that autonomously browse and critique your product's UI/UX — in their own voice. More info: https://sandeep-selvaraj.github.io/hafermilch/",
+      "url": "https://github.com/sandeep-selvaraj/hafermilch",
+      "language": "Python",
+      "tags": [
+        "AI Agents",
+        "Persona",
+        "UI/UX",
+        "LLMs"
+      ]
+    },
+    {
+      "name": "Pascal",
+      "description": "Pascal is a CLI tool that makes managing Python monorepos straightforward. It handles workspace scaffolding, dependency wiring, cross-package testing, and UV workspace sync — so you can focus on code, not configuration. More info: https://sandeep-selvaraj.github.io/pascal/",
+      "url": "https://github.com/sandeep-selvaraj/pascal",
+      "language": "Rust",
+      "tags": [
+        "Monorepos",
+        "Polylith"
+      ]
+    },
+    {
+      "name": "Fuse",
+      "description": "Fuse lets you pull any GGUF model from HuggingFace, run zero-shot structured extraction with dynamic schemas, fine-tune with LoRA, and export to GGUF for fast CPU inference.\nMore info: https://sandeep-selvaraj.github.io/fuse/",
+      "url": "https://github.com/sandeep-selvaraj/fuse",
+      "language": "Python",
+      "tags": [
+        "Machine Learning",
+        "Training",
+        "Zero-shot",
+        "Inference",
+        "LLMs",
+        "VLMs"
+      ]
+    },
+    {
+      "name": "Smart-bomberman",
+      "description": "University team project to train agents to play the game Bomberman. ",
+      "url": "https://github.com/sandeep-selvaraj/smart-bomberman",
+      "language": "Python",
+      "tags": [
+        "Reinforcement Learning",
+        "PPO",
+        "ML",
+        "Game"
+      ]
+    }
+  ],
+  "socials": [
+    {
+      "platform": "github",
+      "url": "https://github.com/sandeep-selvaraj",
+      "enabled": true
+    },
+    {
+      "platform": "discord",
+      "url": "",
+      "enabled": false
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://de.linkedin.com/in/sandeep-selvaraj-380943197",
+      "enabled": true
+    },
+    {
+      "platform": "x",
+      "url": "",
+      "enabled": false
+    }
+  ],
+  "blog": [
+    {
+      "title": "The new era (or Mercedes Era) of F1",
+      "category": "sports",
+      "excerpt": "I'd describe how my excitement for the new F1 season (2026) has faded. (Also, a Tifosi, so deal with the bias)",
+      "body": [
+        "WIP (Coming SOON)"
+      ],
+      "date": "22-03-2026",
+      "readTime": "2 mins"
+    }
+  ]
+}

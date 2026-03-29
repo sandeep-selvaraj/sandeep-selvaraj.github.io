@@ -1,0 +1,56 @@
+---
+interface Project {
+  name: string;
+  description: string;
+  url: string;
+  language: string;
+  tags: string[];
+}
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="section-label scroll-reveal">
+      <span class="section-label__number">04</span>
+      <span class="section-label__text">Projects</span>
+    </div>
+    <div class="projects__grid">
+      {projects.map((proj, i) => (
+        <a href={proj.url || '#'} target="_blank" rel="noopener"
+           class="project-card scroll-reveal" data-tilt style={`--delay: ${i * 0.1}s`}>
+          <div class="project-card__glow"></div>
+          <div class="project-card__header">
+            <span class="project-card__lang" data-lang={proj.language?.toLowerCase()}>{proj.language}</span>
+            <svg class="project-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </div>
+          <h3 class="project-card__title">{proj.name}</h3>
+          <p class="project-card__desc">{proj.description}</p>
+          <div class="project-card__footer">
+            {(proj.tags || []).map(t => <span class="project-card__tag">{t}</span>)}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('mousemove', e => {
+    document.querySelectorAll('.project-card').forEach(card => {
+      const el = card as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty('--mouse-x', x + '%');
+      el.style.setProperty('--mouse-y', y + '%');
+    });
+  });
+</script>

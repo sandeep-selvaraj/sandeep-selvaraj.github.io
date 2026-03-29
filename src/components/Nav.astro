@@ -1,0 +1,69 @@
+---
+
+---
+
+<nav class="nav" id="nav">
+  <a href="#" class="nav__logo">S.</a>
+  <div class="nav__links">
+    <a href="#about" class="nav__link">About</a>
+    <a href="#experience" class="nav__link">Experience</a>
+    <a href="#education" class="nav__link">Education</a>
+    <a href="#projects" class="nav__link">Projects</a>
+    <a href="#blog" class="nav__link">Sho-blogs</a>
+    <a href="#connect" class="nav__link">Connect</a>
+  </div>
+  <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-menu__link">About</a>
+  <a href="#experience" class="mobile-menu__link">Experience</a>
+  <a href="#education" class="mobile-menu__link">Education</a>
+  <a href="#projects" class="mobile-menu__link">Projects</a>
+  <a href="#blog" class="mobile-menu__link">Sho-blogs</a>
+  <a href="#connect" class="mobile-menu__link">Connect</a>
+</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  const toggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('nav--scrolled', window.scrollY > 50);
+  });
+
+  if (toggle && mobileMenu) {
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+
+    mobileMenu.querySelectorAll('.mobile-menu__link').forEach(link => {
+      link.addEventListener('click', () => {
+        toggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      });
+    });
+  }
+
+  // Scrollspy
+  const navLinks = document.querySelectorAll('.nav__link[href^="#"]');
+  const sectionIds = Array.from(navLinks).map(l => l.getAttribute('href').slice(1));
+
+  function onScroll() {
+    let current = sectionIds[0];
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 140) current = id;
+    }
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
