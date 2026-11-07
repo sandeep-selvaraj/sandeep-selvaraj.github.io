@@ -1,30 +1,131 @@
 ---
+interface Stint { years: string; role: string; company: string; }
+
 interface Props {
   greeting: string;
   name: string;
   surname: string;
-  tagline: string;
+  experience: Stint[];
 }
 
-const { greeting, name, surname, tagline } = Astro.props;
+const { greeting, name, surname, experience = [] } = Astro.props;
+
+const isCurrent = (y: string) => /present|now/i.test(y);
+const tidyYears = (y: string) => y.replace(/-/g, '–').replace(/Present/i, 'now');
+
+const rows = [
+  ...experience.map(e => ({
+    team: e.company.replace(/\s+(GmbH|Technology Solutions)$/i, ''),
+    role: e.role,
+    time: tidyYears(e.years),
+    pb: isCurrent(e.years)
+  }))
+];
 ---
 
-<section class="hero" id="hero">
-  <div class="container">
-    <div class="hero__inner">
-      <div class="hero__aside hero__animate">{greeting}</div>
-      <div class="hero__main">
-        <h1 class="hero__name">
-          <span class="hero__animate" style="--delay: 0.05s">{name}</span>
-          <span class="hero__animate accent" style="--delay: 0.15s">{surname}</span>
+<section class="hero" id="top">
+  <div class="wrap hero__grid">
+    <div class="gantry" aria-hidden="true">
+      {[0, 1, 2, 3, 4].map(() => <div class="lamp"><i></i><i></i></div>)}
+    </div>
+
+    <div class="hero__main">
+      <div class="hero__namebar">
+        <span class="code hero__code" aria-hidden="true">SEL</span>
+        <h1 class="hero__name display">
+          <span>{name}</span>
+          <span class="last">{surname}</span>
         </h1>
-        <div class="hero__rule hero__animate" style="--delay: 0.25s"></div>
-        {tagline && (
-          <p class="hero__tagline hero__animate" style="--delay: 0.3s">
-            <span class="field">{tagline}</span>
-          </p>
-        )}
       </div>
+
+      {greeting && (
+        <p class="radio">
+          <span class="radio__tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 3v10M8 7v2M16 7v2M4 9v2M20 9v2M9 21h6M12 13v8"/>
+            </svg>
+            Radio
+          </span>
+          <span class="radio__line">“{greeting}”</span>
+        </p>
+      )}
+
+      <p class="hero__role">Machine Learning Engineer in Dresden. Born and raised in Bangalore.</p>
+      <p class="hero__claim">
+        I ship ML end to end: <b>models</b><span class="arrow" aria-hidden="true">›</span><b>pipelines</b><span class="arrow" aria-hidden="true">›</span><b>services</b>.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn" href="#contact">
+          Radio in
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="textlink" href="#career">See the timing sheet</a>
+      </div>
+    </div>
+
+    <div class="tower">
+      <div class="tower__head" aria-hidden="true">
+        <span>Classification</span>
+        <span>Career</span>
+      </div>
+      <ol aria-label="Career at a glance">
+        {rows.map((r, i) => (
+          <li>
+            <a
+              href="#career"
+              class={`tower__row${r.pb ? ' tower__row--pb' : ''}`}
+              style={`--i:${i}`}
+            >
+              <span class="tower__pos" aria-hidden="true">{i + 1}</span>
+              <span class="tower__who">
+                <span class="tower__team">{r.team}</span>
+                <span class="tower__role">{r.role}</span>
+              </span>
+              <span class={`tower__time${r.pb ? ' pb' : ''}`}>{r.time}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </div>
   </div>
 </section>
+
+<script>
+  // Lights out: five lamp pairs light one by one, hold for a random beat, then all go out and the page launches.
+  const root = document.documentElement;
+  const lamps = Array.from(document.querySelectorAll<HTMLElement>('.lamp'));
+
+  if (root.classList.contains('prelaunch') && lamps.length) {
+    const STEP = 380;
+    const timers: number[] = [];
+    let done = false;
+
+    const go = () => {
+      if (done) return;
+      done = true;
+      timers.forEach(clearTimeout);
+      lamps.forEach(l => l.classList.remove('on'));
+      root.classList.remove('prelaunch');
+      root.classList.add('launch');
+      try { sessionStorage.setItem('sel-launched', '1'); } catch (e) {}
+      window.removeEventListener('keydown', go);
+      window.removeEventListener('pointerdown', go);
+      window.removeEventListener('wheel', go);
+      window.removeEventListener('touchmove', go);
+    };
+
+    lamps.forEach((lamp, i) => {
+      timers.push(window.setTimeout(() => lamp.classList.add('on'), 250 + i * STEP));
+    });
+    // Real starts hold the full gantry for an unpredictable moment
+    const hold = 250 + 4 * STEP + 350 + Math.random() * 450;
+    timers.push(window.setTimeout(go, hold));
+
+    // Any input skips straight to lights out
+    window.addEventListener('keydown', go, { once: true });
+    window.addEventListener('pointerdown', go, { once: true });
+    window.addEventListener('wheel', go, { once: true, passive: true });
+    window.addEventListener('touchmove', go, { once: true, passive: true });
+  }
+</script>
