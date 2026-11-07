@@ -5,9 +5,18 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "cv": "node scripts/generate-cv.js",
+    "cover-letter": "node scripts/generate-cover-letter.js",
+    "jobs": "node scripts/job-tracker-server.js"
   },
   "dependencies": {
-    "astro": "^5.7.14"
+    "astro": "^5.7.14",
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.40.0"
   }
 }
