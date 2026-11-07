@@ -18,41 +18,40 @@ const icons: Record<string, string> = {
   x: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
 };
 
-const arrowSvg = '<svg class="social-link__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>';
+const arrowSvg = '<svg class="social__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>';
 ---
 
-<section class="connect" id="connect">
+<section class="section" id="connect">
   <div class="container">
-    <div class="section-label scroll-reveal">
-      <span class="section-label__number">06</span>
-      <span class="section-label__text">Connect</span>
-    </div>
-    <h2 class="connect__headline scroll-reveal">
-      Let's build something <span class="accent">remarkable</span>.
-    </h2>
-    <div class="connect__links scroll-reveal" style="--delay: 0.15s">
-      {socials.map(s => {
-        const name = s.platform.charAt(0).toUpperCase() + s.platform.slice(1);
-        const icon = icons[s.platform] || '';
+    <div class="slab">
+      <div class="slab__label reveal">connect</div>
+      <div class="slab__body">
+        <h2 class="connect__headline reveal">Let's build something <span class="accent">remarkable</span>.</h2>
+        <div class="connect__links reveal" style="--delay: 0.1s">
+          {socials.map(s => {
+            const name = s.platform.charAt(0).toUpperCase() + s.platform.slice(1);
+            const icon = icons[s.platform] || '';
 
-        if (!s.enabled) {
-          return (
-            <div class="social-link social-link--placeholder">
-              <Fragment set:html={icon} />
-              <span>{name}</span>
-              <span class="social-link__soon">coming soon</span>
-            </div>
-          );
-        }
+            if (!s.enabled) {
+              return (
+                <div class="social social--soon">
+                  <Fragment set:html={icon} />
+                  <span>{name}</span>
+                  <span class="social__soon">coming soon</span>
+                </div>
+              );
+            }
 
-        return (
-          <a href={s.url || '#'} target="_blank" rel="noopener" class="social-link">
-            <Fragment set:html={icon} />
-            <span>{name}</span>
-            <Fragment set:html={arrowSvg} />
-          </a>
-        );
-      })}
+            return (
+              <a href={s.url || '#'} target="_blank" rel="noopener" class="social">
+                <Fragment set:html={icon} />
+                <span>{name}</span>
+                <Fragment set:html={arrowSvg} />
+              </a>
+            );
+          })}
+        </div>
+      </div>
     </div>
   </div>
 </section>
