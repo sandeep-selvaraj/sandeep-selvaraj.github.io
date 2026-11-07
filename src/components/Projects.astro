@@ -3,6 +3,7 @@ interface Project {
   name: string;
   description: string;
   url: string;
+  page?: string;
   language: string;
   tags: string[];
 }
@@ -15,29 +16,30 @@ const { projects } = Astro.props;
 ---
 
 <section class="section" id="projects">
-  <div class="container">
-    <div class="slab">
-      <div class="slab__label reveal">work</div>
-      <div class="slab__body">
-        <div class="projects__grid">
-          {projects.map((proj, i) => (
-            <a href={proj.url || '#'} target="_blank" rel="noopener"
-               class="project reveal" style={`--delay: ${(i % 2) * 0.08}s`}>
-              <div class="project__head">
-                <span class="project__lang">{proj.language}</span>
-                <svg class="project__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </div>
-              <h3 class="project__title">{proj.name}</h3>
-              <p class="project__desc">{proj.description}</p>
-              <div class="project__tags">
-                {(proj.tags || []).map(t => <span>{t}</span>)}
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title display">Projects</h2>
+    </div>
+
+    <div class="garage">
+      {projects.map(p => (
+        <article class="machine">
+          <div>
+            <h3 class="machine__name display">{p.name}</h3>
+            {p.language && <span class="machine__lang">{p.language}</span>}
+          </div>
+          <div>
+            <p class="machine__desc">{p.description}</p>
+            {p.tags && p.tags.length > 0 && (
+              <div class="pills machine__tags">{p.tags.map(t => <span class="pill">{t}</span>)}</div>
+            )}
+            <div class="machine__links">
+              {p.page && <a class="textlink" href={p.page} target="_blank" rel="noopener">Project page</a>}
+              {p.url && <a class="textlink" href={p.url} target="_blank" rel="noopener">Source on GitHub</a>}
+            </div>
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>
