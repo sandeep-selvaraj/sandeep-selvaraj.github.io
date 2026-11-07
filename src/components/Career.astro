@@ -1,0 +1,135 @@
+---
+interface Paper { title: string; url?: string; }
+
+interface EducationItem {
+  years: string;
+  degree: string;
+  school: string;
+  thesis?: string;
+  papers?: Paper[];
+  notes?: string;
+}
+
+interface ExperienceItem {
+  years: string;
+  role: string;
+  company: string;
+  companyUrl?: string;
+  description?: string[];
+  techstack?: string[];
+}
+
+interface Props {
+  experience: ExperienceItem[];
+  education: EducationItem[];
+}
+
+const { experience = [], education = [] } = Astro.props;
+
+const tidyYears = (y: string) => y.replace(/-/g, '–').replace(/Present/i, 'now');
+const isCurrent = (y: string) => /present|now/i.test(y);
+
+// Stack terms that actually appear in a stint's bullets get marked, so selecting a term lights it across the sheet
+const ESC: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const escapeHtml = (s: string) => s.replace(/[&<>"']/g, c => ESC[c]);
+const reEsc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const usable = (t: string) => t.length >= 3 && !/[()]/.test(t);
+
+function annotate(line: string, stack: string[]): string {
+  const terms = stack.filter(usable).sort((a, b) => b.length - a.length);
+  if (!terms.length) return escapeHtml(line);
+  const re = new RegExp(`((?<![A-Za-z0-9])(?:${terms.map(reEsc).join('|')})(?![A-Za-z0-9]))`, 'gi');
+  return line.split(re).map((seg, i) => {
+    if (i % 2 === 0) return escapeHtml(seg);
+    return `<mark class="ent" data-term="${escapeHtml(seg.toLowerCase())}">${escapeHtml(seg)}</mark>`;
+  }).join('');
+}
+
+const roleCount = experience.length;
+const yearsRange = (() => {
+  const nums = experience.flatMap(e => e.years.match(/\d{4}/g) ?? []).map(Number);
+  return nums.length ? `${Math.min(...nums)}–now` : '';
+})();
+---
+
+<section class="section" id="career">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title display">Career</h2>
+      <span class="section__meta">{roleCount} stints · {yearsRange} · select a term to light it up</span>
+    </div>
+
+    <ol class="stints">
+      {experience.map((e, i) => (
+        <li class={`stint${isCurrent(e.years) ? ' stint--pb' : ''}`}>
+          <span class="stint__pos display" aria-hidden="true">P{i + 1}</span>
+          <div>
+            <div class="stint__head">
+              <h3 class="stint__role display">{e.role}</h3>
+              <span class="stint__time">{tidyYears(e.years)}</span>
+            </div>
+            <span class="stint__team">
+              {e.companyUrl
+                ? <a href={e.companyUrl} target="_blank" rel="noopener">{e.company}</a>
+                : e.company}
+            </span>
+
+            {e.description && e.description.length > 0 && (
+              <ul class="stint__list">
+                {e.description.map(d => <li set:html={annotate(d, e.techstack ?? [])} />)}
+              </ul>
+            )}
+
+            {e.techstack && e.techstack.length > 0 && (
+              <div class="stack">
+                <span class="stack__label">Stack</span>
+                {e.techstack.map(t => (
+                  <button class="term" type="button" aria-pressed="false" data-term={t.toLowerCase()}>{t}</button>
+                ))}
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    {education.length > 0 && (
+      <div class="academy" id="academy">
+        <h3 class="academy__title display">Academy</h3>
+        {education.map(e => (
+          <div class="degree">
+            <span class="degree__time">{tidyYears(e.years)}</span>
+            <div>
+              <p class="degree__name">{e.degree}</p>
+              <p class="degree__school">{e.school}</p>
+              <div class="degree__facts">
+                {e.thesis && <p><b>Thesis</b>{e.thesis}</p>}
+                {e.papers && e.papers.length > 0 && e.papers.map(p => (
+                  <p><b>Paper</b>{p.url
+                    ? <a class="textlink" href={p.url} target="_blank" rel="noopener">{p.title}</a>
+                    : p.title}</p>
+                ))}
+                {e.notes && <p><b>Result</b>{e.notes.replace(/^Grade:\s*/i, 'Grade ')}</p>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  // Selecting a stack term lights every mention of it across the timing sheet, like picking a driver on the tower
+  const terms = Array.from(document.querySelectorAll<HTMLButtonElement>('.term'));
+  const marks = Array.from(document.querySelectorAll<HTMLElement>('.ent'));
+
+  terms.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const term = btn.dataset.term;
+      const on = btn.getAttribute('aria-pressed') !== 'true';
+      terms.filter(t => t.dataset.term === term).forEach(t => t.setAttribute('aria-pressed', String(on)));
+      marks.filter(m => m.dataset.term === term).forEach(m => m.classList.toggle('lit', on));
+    });
+  });
+</script>
