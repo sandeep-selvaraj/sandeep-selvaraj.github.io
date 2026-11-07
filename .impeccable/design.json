@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T10:25:37+00:00",
+  "title": "Design System: Sandeep Selvaraj",
+  "extensions": {
+    "colorMeta": {
+      "asphalt": {
+        "role": "neutral",
+        "displayName": "Asphalt",
+        "purpose": "Page ground, nav, menu, flag squares.",
+        "tonalRamp": [
+          "oklch(15% 0.003 271.1)",
+          "oklch(26% 0.004 271.1)",
+          "oklch(38% 0.005 271.1)",
+          "oklch(49% 0.006 271.1)",
+          "oklch(61% 0.006 271.1)",
+          "oklch(72% 0.005 271.1)",
+          "oklch(84% 0.004 271.1)",
+          "oklch(95% 0.003 271.1)"
+        ]
+      },
+      "asphalt-2": {
+        "role": "neutral",
+        "displayName": "Pit Wall",
+        "purpose": "First raised plate: tower body, radio strip.",
+        "tonalRamp": [
+          "oklch(15% 0.004 264.4)",
+          "oklch(26% 0.005 264.4)",
+          "oklch(38% 0.006 264.4)",
+          "oklch(49% 0.008 264.4)",
+          "oklch(61% 0.008 264.4)",
+          "oklch(72% 0.006 264.4)",
+          "oklch(84% 0.005 264.4)",
+          "oklch(95% 0.004 264.4)"
+        ]
+      },
+      "asphalt-3": {
+        "role": "neutral",
+        "displayName": "Garage Floor",
+        "purpose": "Second plate: pills, terms, row hover, inner dividers.",
+        "tonalRamp": [
+          "oklch(15% 0.005 264.4)",
+          "oklch(26% 0.007 264.4)",
+          "oklch(38% 0.009 264.4)",
+          "oklch(49% 0.011 264.4)",
+          "oklch(61% 0.011 264.4)",
+          "oklch(72% 0.009 264.4)",
+          "oklch(84% 0.007 264.4)",
+          "oklch(95% 0.005 264.4)"
+        ]
+      },
+      "kerb": {
+        "role": "neutral",
+        "displayName": "Kerb",
+        "purpose": "1px dividers, nav border, term hover, bullet ticks.",
+        "tonalRamp": [
+          "oklch(15% 0.006 261.7)",
+          "oklch(26% 0.008 261.7)",
+          "oklch(38% 0.010 261.7)",
+          "oklch(49% 0.013 261.7)",
+          "oklch(61% 0.013 261.7)",
+          "oklch(72% 0.010 261.7)",
+          "oklch(84% 0.008 261.7)",
+          "oklch(95% 0.006 261.7)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Timing White",
+        "purpose": "Primary text, inverted plates, reference-sheet top rule, flag.",
+        "tonalRamp": [
+          "oklch(15% 0.002 106.5)",
+          "oklch(26% 0.002 106.5)",
+          "oklch(38% 0.003 106.5)",
+          "oklch(49% 0.004 106.5)",
+          "oklch(61% 0.004 106.5)",
+          "oklch(72% 0.003 106.5)",
+          "oklch(84% 0.002 106.5)",
+          "oklch(95% 0.002 106.5)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "purpose": "Body prose, roles, inactive nav.",
+        "tonalRamp": [
+          "oklch(15% 0.004 264.5)",
+          "oklch(26% 0.006 264.5)",
+          "oklch(38% 0.007 264.5)",
+          "oklch(49% 0.008 264.5)",
+          "oklch(61% 0.008 264.5)",
+          "oklch(72% 0.007 264.5)",
+          "oklch(84% 0.006 264.5)",
+          "oklch(95% 0.004 264.5)"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint",
+        "purpose": "Uppercase labels and metadata.",
+        "tonalRamp": [
+          "oklch(15% 0.006 264.5)",
+          "oklch(26% 0.008 264.5)",
+          "oklch(38% 0.010 264.5)",
+          "oklch(49% 0.012 264.5)",
+          "oklch(61% 0.012 264.5)",
+          "oklch(72% 0.010 264.5)",
+          "oklch(84% 0.008 264.5)",
+          "oklch(95% 0.006 264.5)"
+        ]
+      },
+      "signal-white": {
+        "role": "neutral",
+        "displayName": "Signal White",
+        "purpose": "Pure white, only on red.",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "red": {
+        "role": "primary",
+        "displayName": "Start-Light Red",
+        "purpose": "Primary action, surname, lit lamps, live top rule, link underlines.",
+        "tonalRamp": [
+          "oklch(15% 0.105 27.5)",
+          "oklch(26% 0.141 27.5)",
+          "oklch(38% 0.177 27.5)",
+          "oklch(49% 0.213 27.5)",
+          "oklch(61% 0.213 27.5)",
+          "oklch(72% 0.177 27.5)",
+          "oklch(84% 0.141 27.5)",
+          "oklch(95% 0.105 27.5)"
+        ]
+      },
+      "red-deep": {
+        "role": "primary",
+        "displayName": "Radio Red",
+        "purpose": "Full-bleed contact field.",
+        "tonalRamp": [
+          "oklch(15% 0.089 27.3)",
+          "oklch(26% 0.120 27.3)",
+          "oklch(38% 0.151 27.3)",
+          "oklch(49% 0.181 27.3)",
+          "oklch(61% 0.181 27.3)",
+          "oklch(72% 0.151 27.3)",
+          "oklch(84% 0.120 27.3)",
+          "oklch(95% 0.089 27.3)"
+        ]
+      },
+      "red-lit": {
+        "role": "primary",
+        "displayName": "Lit Red",
+        "purpose": "Primary hover and caret only.",
+        "tonalRamp": [
+          "oklch(15% 0.110 26.7)",
+          "oklch(26% 0.148 26.7)",
+          "oklch(38% 0.186 26.7)",
+          "oklch(49% 0.224 26.7)",
+          "oklch(61% 0.224 26.7)",
+          "oklch(72% 0.186 26.7)",
+          "oklch(84% 0.148 26.7)",
+          "oklch(95% 0.110 26.7)"
+        ]
+      },
+      "purple": {
+        "role": "secondary",
+        "displayName": "Personal-Best Purple",
+        "purpose": "Current stint / personal best.",
+        "tonalRamp": [
+          "oklch(15% 0.076 300.4)",
+          "oklch(26% 0.101 300.4)",
+          "oklch(38% 0.127 300.4)",
+          "oklch(49% 0.153 300.4)",
+          "oklch(61% 0.153 300.4)",
+          "oklch(72% 0.127 300.4)",
+          "oklch(84% 0.101 300.4)",
+          "oklch(95% 0.076 300.4)"
+        ]
+      },
+      "green": {
+        "role": "secondary",
+        "displayName": "Shipped Green",
+        "purpose": "Shipped / done status (reserved; no rendered instance yet).",
+        "tonalRamp": [
+          "oklch(15% 0.087 150.9)",
+          "oklch(26% 0.117 150.9)",
+          "oklch(38% 0.147 150.9)",
+          "oklch(49% 0.177 150.9)",
+          "oklch(61% 0.177 150.9)",
+          "oklch(72% 0.147 150.9)",
+          "oklch(84% 0.117 150.9)",
+          "oklch(95% 0.087 150.9)"
+        ]
+      },
+      "yellow": {
+        "role": "secondary",
+        "displayName": "In-Progress Yellow",
+        "purpose": "In-progress status, focus ring, skip link.",
+        "tonalRamp": [
+          "oklch(15% 0.074 90.9)",
+          "oklch(26% 0.099 90.9)",
+          "oklch(38% 0.124 90.9)",
+          "oklch(49% 0.149 90.9)",
+          "oklch(61% 0.149 90.9)",
+          "oklch(72% 0.124 90.9)",
+          "oklch(84% 0.099 90.9)",
+          "oklch(95% 0.074 90.9)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero name and contact title only. Italic, uppercase, 58% width."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, career P-numbers; machine names at 2.6-6rem. Italic, uppercase."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Stint roles, Academy, note titles, mobile menu links. Italic, uppercase."
+      },
+      "timing": {
+        "displayName": "Timing",
+        "purpose": "Tower team names and positions, SEL code, button labels (70-75% width). Italic, uppercase."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Hero role line, radio greeting (500 italic), profile headline."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Muted prose at 64-72ch, tabular numerals."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase nav, tower head, spec terms, stack label, meta, status."
+      }
+    },
+    "fonts": [
+      {
+        "family": "Saira",
+        "source": "/fonts/saira-latin.woff2, /fonts/saira-italic-latin.woff2",
+        "axes": "wdth 50-125, wght 100-900",
+        "license": "OFL",
+        "display": "swap, preloaded"
+      }
+    ],
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing for launch keyframes and hover nudges."
+      },
+      {
+        "name": "lamp-step",
+        "value": "380ms (first lamp at 250ms), switch 0.06s linear",
+        "purpose": "Gantry columns light one by one."
+      },
+      {
+        "name": "lamp-hold",
+        "value": "350ms + random 0-450ms after the fifth lamp",
+        "purpose": "Unpredictable hold before lights out."
+      },
+      {
+        "name": "launch",
+        "value": "0.9s ease-out; from opacity .12, translateX(-.35em) skewX(-6deg) blur(10px), blur(2px) at 45%",
+        "purpose": "Name and SEL code launch at lights out."
+      },
+      {
+        "name": "settle",
+        "value": "0.7s ease-out, 0.35s delay; from opacity 0, translateY(10px)",
+        "purpose": "Radio line, role, claim and actions."
+      },
+      {
+        "name": "pitlane",
+        "value": "0.6s ease-out, 0.2s + index x 70ms delay; from opacity 0, translateX(28px)",
+        "purpose": "Tower rows slide in."
+      },
+      {
+        "name": "skip",
+        "value": "keydown | pointerdown | wheel | touchmove",
+        "purpose": "Any input jumps straight to lights out."
+      },
+      {
+        "name": "once-per-session",
+        "value": "sessionStorage 'sel-launched'",
+        "purpose": "Launch runs once per session."
+      },
+      {
+        "name": "failsafe",
+        "value": "4500ms",
+        "purpose": "Inline head script removes prelaunch even if the launch script never runs; no JS means no hiding."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Launch never arms; all animation/transition durations clamp to 0.01ms; smooth scroll off."
+      },
+      {
+        "name": "state-transition",
+        "value": "0.2s (colour/background), 0.25s ease-out (3-4px sideways nudge), 0.4s ease-out (note expand)",
+        "purpose": "Hover and disclosure states; not authored motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "1000px",
+        "purpose": "Hero, profile and garage grids to one column; tower below name."
+      },
+      {
+        "name": "menu",
+        "value": "760px",
+        "purpose": "Nav links to Menu toggle; stint, degree and note rows stack."
+      },
+      {
+        "name": "narrow",
+        "value": "420px",
+        "purpose": "Nav name hides; SEL code stacks above hero name."
+      }
+    ],
+    "theme": {
+      "mode": "dark-only",
+      "colorScheme": "dark",
+      "themeColor": "#121316"
+    },
+    "cssVariables": ":root{--asphalt:#121316;--asphalt-2:#1a1c20;--asphalt-3:#24272d;--kerb:#30343b;--ink:#f1f1ee;--muted:#b3b6bc;--faint:#9a9ea6;--red:#e3121b;--red-deep:#b80d15;--red-lit:#ff2a2f;--purple:#b98cff;--green:#36d873;--yellow:#ffd23f;--font:'Saira','Arial Narrow',Arial,sans-serif;--slant:10px;--ease-out:cubic-bezier(0.16,1,0.3,1)}"
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action per page: red forward-leaning parallelogram.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Radio in <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M5 12h13M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.6rem;min-height:48px;padding:.7rem 1.6rem .7rem 1.35rem;background:#e3121b;color:#fff;font-family:'Saira','Arial Narrow',Arial,sans-serif;font-weight:800;font-stretch:75%;font-style:italic;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:background .2s,transform .25s cubic-bezier(0.16,1,0.3,1)}.ds-btn:hover{background:#ff2a2f;transform:translateX(3px)}.ds-btn:focus-visible{outline:3px solid var(--yellow, #ffd23f);outline-offset:3px;}.ds-btn svg{width:1.1em;height:1.1em}"
+    },
+    {
+      "name": "Text Link",
+      "kind": "button",
+      "refersTo": "",
+      "description": "Secondary action: ink text over a 2px red underline.",
+      "html": "<a class=\"ds-textlink\" href=\"#\">See the timing sheet</a>",
+      "css": ".ds-textlink{font-family:'Saira','Arial Narrow',Arial,sans-serif;font-weight:600;color:#f1f1ee;text-decoration:underline;text-decoration-color:#e3121b;text-decoration-thickness:2px;text-underline-offset:.3em;transition:text-decoration-color .2s}.ds-textlink:hover{text-decoration-color:#f1f1ee}.ds-textlink:focus-visible{outline:3px solid var(--yellow, #ffd23f);outline-offset:3px;}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Fixed broadcast top bar; active link gets a skewed red underline.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-code\">SEL</span><span>Sandeep Selvaraj</span></a><nav class=\"ds-links\"><a href=\"#\">About</a><a href=\"#\" class=\"is-active\">Career</a><a href=\"#\">Projects</a></nav></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:60px;padding:0 1.5rem;background:#121316;border-bottom:1px solid #30343b;font-family:'Saira','Arial Narrow',Arial,sans-serif;color:#f1f1ee}.ds-brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:inherit;font-weight:600;font-stretch:80%;letter-spacing:.02em;text-transform:uppercase}.ds-code{display:inline-block;padding:.12em .55em .08em .45em;background:#f1f1ee;color:#121316;font-stretch:62%;font-style:italic;font-weight:800;clip-path:polygon(.4em 0,100% 0,calc(100% - .4em) 100%,0 100%)}.ds-links{display:flex;gap:.25rem}.ds-links a{position:relative;padding:.5rem .8rem;font-size:.9rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:#b3b6bc;transition:color .2s}.ds-links a:hover,.ds-links a.is-active{color:#f1f1ee}.ds-links a.is-active::after{content:'';position:absolute;left:.8rem;right:.8rem;bottom:.2rem;height:3px;background:#e3121b;transform:skewX(-20deg)}.ds-links a:focus-visible{outline:3px solid var(--yellow, #ffd23f);outline-offset:3px;}"
+    },
+    {
+      "name": "Stack Term",
+      "kind": "chip",
+      "refersTo": "term",
+      "description": "Toggle chip; pressed inverts to timing white and lights matching mentions across the sheet.",
+      "html": "<div class=\"ds-stack\"><span class=\"ds-stack-label\">Stack</span><button class=\"ds-term\" aria-pressed=\"false\">Python</button><button class=\"ds-term\" aria-pressed=\"true\">Dagster</button><span class=\"ds-pill\">LLMs</span></div>",
+      "css": ".ds-stack{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-family:'Saira','Arial Narrow',Arial,sans-serif;color:#f1f1ee}.ds-stack-label{margin-right:.4rem;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9a9ea6}.ds-term,.ds-pill{font:inherit;color:inherit;border:0;cursor:pointer;min-height:36px;padding:.25rem .9rem .25rem .75rem;background:#24272d;font-size:.9rem;font-weight:600;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);transition:background .2s,color .2s}.ds-pill{cursor:default;min-height:0;padding:.2rem .85rem .2rem .7rem;display:inline-block}.ds-term:hover{background:#30343b}.ds-term[aria-pressed='true']{background:#f1f1ee;color:#121316}.ds-term:focus-visible{outline:3px solid var(--yellow, #ffd23f);outline-offset:3px;}"
+    },
+    {
+      "name": "Timing Tower",
+      "kind": "card",
+      "refersTo": "tower-row",
+      "description": "Career at a glance: position plates, condensed team names, tabular times; current stint in purple.",
+      "html": "<div class=\"ds-tower\"><div class=\"ds-tower-head\"><span>Classification</span><span>Career</span></div><a class=\"ds-row is-pb\" href=\"#\"><span class=\"ds-pos\">1</span><span><b>Elevait</b><small>Machine Learning Engineer</small></span><span class=\"ds-time\">2024–now</span></a><a class=\"ds-row\" href=\"#\"><span class=\"ds-pos\">2</span><span><b>Cognizant</b><small>Software Development Engineer</small></span><span class=\"ds-time\">2020–2022</span></a></div>",
+      "css": ".ds-tower{background:#1a1c20;border-top:3px solid #e3121b;font-family:'Saira','Arial Narrow',Arial,sans-serif;color:#f1f1ee;font-variant-numeric:tabular-nums;max-width:32rem}.ds-tower-head{display:flex;justify-content:space-between;padding:.7rem 1rem .55rem;font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid #30343b}.ds-tower-head span:last-child{color:#9a9ea6}.ds-row{display:grid;grid-template-columns:2.6rem minmax(0,1fr) auto;align-items:center;gap:.9rem;padding:.55rem 1rem .55rem 0;border-bottom:1px solid #24272d;text-decoration:none;color:inherit;transition:background .2s}.ds-row:hover{background:#24272d}.ds-row:focus-visible{outline:3px solid var(--yellow, #ffd23f);outline-offset:3px;}.ds-pos{align-self:stretch;display:grid;place-items:center;background:#f1f1ee;color:#121316;font-size:1.4rem;font-stretch:62%;font-style:italic;font-weight:800;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}.ds-row b{display:block;font-size:1.4rem;font-stretch:62%;font-style:italic;font-weight:800;text-transform:uppercase;line-height:1.2}.ds-row small{display:block;font-size:.9rem;color:#b3b6bc}.ds-time{font-size:.9rem;font-weight:700}.ds-row.is-pb .ds-pos{background:#b98cff}.ds-row.is-pb .ds-time{color:#b98cff}"
+    },
+    {
+      "name": "Radio Line",
+      "kind": "custom",
+      "refersTo": "radio-tag",
+      "description": "Team-radio greeting strip: timing-white tag cut on its trailing edge, italic quote.",
+      "html": "<p class=\"ds-radio\"><span class=\"ds-radio-tag\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 3v10M8 7v2M16 7v2M4 9v2M20 9v2M9 21h6M12 13v8\"/></svg>Radio</span><span class=\"ds-radio-line\">“Good day, healthy life, dear visitor!”</span></p>",
+      "css": ".ds-radio{display:flex;align-items:stretch;max-width:34rem;background:#1a1c20;font-family:'Saira','Arial Narrow',Arial,sans-serif;color:#f1f1ee;margin:0}.ds-radio-tag{display:flex;align-items:center;gap:.45rem;padding:.5rem .9rem .5rem .75rem;background:#f1f1ee;color:#121316;font-size:.9rem;font-weight:800;font-stretch:70%;letter-spacing:.08em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%)}.ds-radio-tag svg{width:.95em;height:.95em}.ds-radio-line{padding:.55rem 1rem;font-size:1.35rem;font-style:italic;font-weight:500;line-height:1.3}"
+    },
+    {
+      "name": "Contact Radio Field",
+      "kind": "custom",
+      "refersTo": "contact-field",
+      "description": "Full-bleed radio-red close with white slanted channel plates, over the chequered flag.",
+      "html": "<section class=\"ds-contact\"><h2>Radio in.</h2><p>Hiring for ML, building something, or want to talk F1?</p><div class=\"ds-channels\"><a class=\"ds-channel\" href=\"#\">GitHub</a><a class=\"ds-channel\" href=\"#\">LinkedIn</a></div></section><div class=\"ds-flag\"></div>",
+      "css": ".ds-contact{background:#b80d15;color:#fff;padding:3rem 1.5rem;font-family:'Saira','Arial Narrow',Arial,sans-serif}.ds-contact h2{margin:0;font-size:4.5rem;font-stretch:58%;font-style:italic;font-weight:800;line-height:.84;text-transform:uppercase}.ds-contact p{margin:1.25rem 0 0;font-size:1.3rem;max-width:34ch}.ds-channels{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}.ds-channel{display:inline-flex;align-items:center;min-height:56px;padding:.8rem 1.8rem .8rem 1.5rem;background:#fff;color:#121316;font-size:1.3rem;font-weight:800;font-stretch:70%;font-style:italic;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:transform .25s cubic-bezier(0.16,1,0.3,1),background .2s}.ds-channel:hover{transform:translateX(4px);background:#f1f1ee}.ds-channel:focus-visible{outline:3px solid var(--yellow, #ffd23f);outline-offset:3px;}.ds-flag{height:28px;background:repeating-conic-gradient(#f1f1ee 0 25%,#121316 0 50%) 0 0/28px 28px}"
+    },
+    {
+      "name": "Start Gantry",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Five lamp columns; the only rounded hardware and the trigger of the single lights-out launch.",
+      "html": "<div class=\"ds-gantry\" aria-hidden=\"true\"><div class=\"ds-lamp on\"><i></i><i></i></div><div class=\"ds-lamp on\"><i></i><i></i></div><div class=\"ds-lamp on\"><i></i><i></i></div><div class=\"ds-lamp\"><i></i><i></i></div><div class=\"ds-lamp\"><i></i><i></i></div></div>",
+      "css": ".ds-gantry{display:inline-flex;gap:.6rem;padding:.6rem;background:#050506;border-radius:6px}.ds-lamp{display:grid;gap:.4rem;padding:.4rem;background:#0d0d0f;border-radius:4px}.ds-lamp i{display:block;width:2.2rem;aspect-ratio:1;border-radius:50%;background:#2a0b0e;transition:background .06s linear}.ds-lamp.on i{background:#e3121b}"
+    },
+    {
+      "name": "Status Mark",
+      "kind": "chip",
+      "refersTo": "",
+      "description": "Sector-colour status: skewed bar plus uppercase label. Yellow in progress, green shipped.",
+      "html": "<span class=\"ds-status ds-wip\">In progress</span> <span class=\"ds-status ds-done\">Shipped</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:.45rem;margin-right:1.5rem;font-family:'Saira','Arial Narrow',Arial,sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.ds-status::before{content:'';width:1.4rem;height:4px;transform:skewX(-20deg);background:currentColor}.ds-wip{color:#ffd23f}.ds-done{color:#36d873}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Lights Out",
+    "overview": "The site is a personal home read as a race weekend's live timing screen. Career is a timing tower of stints, education is the academy, projects are machines in the garage, writing is paddock notes, and the close is a red team-radio field over a chequered line. The world is flat broadcast graphics on asphalt: square plates, forward-leaning parallelogram cuts, condensed italic numerals and hard rules. Nothing glows, nothing floats, nothing casts a shadow.\n\nDensity follows a timing sheet. Rows are tight, separated by 1px kerb lines, and headed by a 3px top rule. Display type is very loud (the name runs at up to 12.5rem in extra-condensed italic). Body copy is calm, normal-width and muted, so the loud voice only lands on names, positions and times. Colour carries meaning instead of decoration: the timing-screen sector colours mean what they mean on a real screen, and start-light red is kept for the action and the radio.\n\nThe site is dark-only. It has no light theme or theme toggle (`color-scheme: dark`, `theme-color` #121316). No team, F1 or FOM marks, liveries or logos appear anywhere; the world borrows the broadcast grammar, not anyone's brand.",
+    "keyCharacteristics": [
+      "Asphalt ground with timing-white ink and three tonal plates. Kerb-line dividers, no shadows.",
+      "One typeface, Saira, used across its width axis: 58-62% italic for the display voice, 100% upright for reading.",
+      "Forward-leaning slanted cuts on every plate that is a tag, position or action.",
+      "Sector colours as semantics: purple = current or personal best, green = shipped, yellow = in progress.",
+      "Start-light red for the primary action, live timing rules and the contact field.",
+      "One authored motion: the lights-out launch."
+    ],
+    "rules": [
+      {
+        "name": "The Sector Meaning Rule",
+        "body": "Purple, green and yellow are semantic, never decorative. Purple means current or personal best, green means shipped, and yellow means in progress (or focus). If an element has no such status, it gets none of them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Start-Light Rule",
+        "body": "Red belongs to the start light: the one primary action, live timing rules, link underlines and the radio field. Red never marks an error or a sector status, and no second accent hue competes with it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Width Axis Rule",
+        "body": "Hierarchy is set by width, weight and slant, not by adding typefaces. Condensed italic (58-62%) is for things a timing screen would print: names, positions, teams, titles. Reading text stays at 100% width and upright. Never set a paragraph in the display voice.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Numerals are tabular everywhere (`font-variant-numeric: tabular-nums` on the body) so years and positions line up in columns.",
+        "section": "typography"
+      },
+      {
+        "name": "The Broadcast Flat Rule",
+        "body": "Surfaces never lift. A plate is distinguished by tone or by a hard rule, never by a shadow or glow. Hover changes tone or nudges position sideways. It never raises anything.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Top Rule Rule",
+        "body": "A data block opens with a 3px rule. It is red when the data is live timing (hero tower, career stints) and timing white when it is a reference sheet (profile spec, garage, notes).",
+        "section": "elevation"
+      },
+      {
+        "name": "The Forward Lean Rule",
+        "body": "Every cut and skew leans forward, matching the italic. The top edge sits further right than the bottom. Never mirror a cut or mix lean directions.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do set names, positions, team names and section titles in the condensed italic display voice (58-62% width, 800, uppercase), and keep all reading text at 100% width and upright.",
+      "Do cut tags, positions and actions with the forward-leaning parallelogram (6px for chips, 8-10px for plates and buttons, 0.4em for the code block).",
+      "Do use purple only for current or personal best, green only for shipped and yellow only for in progress or focus.",
+      "Do open every data block with a 3px top rule: red for live timing, timing white for reference sheets.",
+      "Do separate rows with 1px kerb lines and express depth with the asphalt plate steps only.",
+      "Do keep the lights-out launch as the single authored motion, with its skip-on-input, once-per-session, reduced-motion and 4.5s failsafe rules intact.",
+      "Do keep pure white on red only, and keep text on the asphalt plates in timing white, muted or faint."
+    ],
+    "donts": [
+      "Don't add a light theme or a theme toggle. The site is dark-only.",
+      "Don't add shadows, glows, blurs or gradients to surfaces. The only gradient is the chequered flag.",
+      "Don't round corners outside the start gantry hardware.",
+      "Don't use sector colours or red decoratively, or add a second accent hue.",
+      "Don't add a second authored motion, scroll-triggered reveals or looping animation. Hover states stay limited to tone changes and short sideways nudges.",
+      "Don't use team, F1 or FOM logos, liveries or marks.",
+      "Don't add eyebrow or kicker labels above section titles. Section meta sits on the title's baseline, to the right.",
+      "Don't mirror the slant or mix lean directions."
+    ]
+  }
+}
