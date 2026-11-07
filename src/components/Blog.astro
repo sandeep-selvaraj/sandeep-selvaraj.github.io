@@ -13,73 +13,61 @@ interface Props {
 }
 
 const { posts } = Astro.props;
-const categories = [...new Set(posts.map(p => p.category))];
+
+// A post whose body is still a placeholder is shown as in progress, not as a link to nothing
+const isDraft = (p: BlogPost) => !p.body?.length || /\b(wip|coming soon)\b/i.test(p.body.join(' '));
+const fmtDate = (d: string) => {
+  const m = d.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+  if (!m) return d;
+  const date = new Date(Date.UTC(+m[3], +m[2] - 1, +m[1]));
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+};
 ---
 
-<section class="section" id="blog">
-  <div class="container">
-    <div class="slab">
-      <div class="slab__label reveal">writing</div>
-      <div class="slab__body">
-        {posts.length > 0 && (
-          <div class="blog__filters reveal">
-            <button class="blog__filter active" data-filter="all">All</button>
-            {categories.map(c => (
-              <button class="blog__filter" data-filter={c}>
-                {c.charAt(0).toUpperCase() + c.slice(1)}
-              </button>
-            ))}
-          </div>
-        )}
+<section class="section" id="writing">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title display">Writing</h2>
+    </div>
 
-        {posts.map(post => (
-          <article class="post reveal" data-category={post.category}>
-            <div class="post__meta">
-              <time>{post.date}</time>
-              <span>{post.readTime}</span>
+    <div class="notes">
+      {posts.map(post => {
+        const draft = isDraft(post);
+        return (
+          <article class="note">
+            <div class="note__meta">
+              <span>{fmtDate(post.date)}</span>
+              <span>{post.category}</span>
             </div>
             <div>
-              <div class="post__cat">{post.category}</div>
-              <h3 class="post__title">{post.title}</h3>
-              <p class="post__excerpt">{post.excerpt}</p>
-              {(post.body && post.body.length > 0) && (
+              <h3 class="note__title display">{post.title}</h3>
+              <p class="note__excerpt">{post.excerpt}</p>
+              {draft ? (
+                <span class="status status--wip">In progress</span>
+              ) : (
                 <>
-                  <div class="post__expanded">
-                    <div>
-                      {post.body.map(p => <p>{p}</p>)}
-                    </div>
+                  <div class="note__body">
+                    <div>{post.body.map(p => <p>{p}</p>)}</div>
                   </div>
-                  <button class="post__toggle" aria-expanded="false">Read more</button>
+                  <button class="note__toggle" type="button" aria-expanded="false">Read it · {post.readTime}</button>
                 </>
               )}
             </div>
           </article>
-        ))}
-      </div>
+        );
+      })}
     </div>
   </div>
 </section>
 
 <script>
-  document.querySelectorAll('.blog__filter').forEach(btn => {
+  document.querySelectorAll<HTMLButtonElement>('.note__toggle').forEach(btn => {
+    const label = btn.textContent;
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.blog__filter').forEach(f => f.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = (btn as HTMLElement).dataset.filter;
-      document.querySelectorAll('.post').forEach(card => {
-        const el = card as HTMLElement;
-        const show = filter === 'all' || el.dataset.category === filter;
-        el.classList.toggle('hidden', !show);
-      });
-    });
-  });
-
-  document.querySelectorAll('.post__toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const panel = (btn as HTMLElement).previousElementSibling as HTMLElement;
-      const open = panel.classList.toggle('open');
-      btn.textContent = open ? 'Read less' : 'Read more';
+      const body = btn.previousElementSibling as HTMLElement;
+      const open = body.classList.toggle('open');
       btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Close' : label;
     });
   });
 </script>
