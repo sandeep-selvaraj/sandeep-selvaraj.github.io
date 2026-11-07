@@ -15,3 +15,12 @@ public/job-tracker.html
 scripts/generate-cv.js
 scripts/generate-cover-letter.js
 scripts/job-tracker-server.js
+
+# Impeccable runtime artifacts (screenshots, sketches, decision pages, critique snapshots)
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/questions/
+.impeccable/build/
+.impeccable/critique/*
+!.impeccable/critique/ignore.md
+.impeccable/config.local.json
