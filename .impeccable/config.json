@@ -1,0 +1,62 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-11-07T10:05:41.809Z",
+        "reason": "Model judgment: the chequered finish-line band in the footer is the chosen F1 world's authored close, not decorative striping"
+      },
+      {
+        "rule": "overused-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-poster.html"
+        ],
+        "createdAt": "2026-11-07T10:06:47.960Z",
+        "reason": "Model judgment: throwaway decision-round sketch, not shipped; system-font fallback only"
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-07T10:06:48.022Z",
+        "reason": "Model judgment: canon card sketch deliberately renders the category-standard hero; not shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-07T10:48:06.161Z",
+        "reason": "Model judgment: spent direction-round sketch predating DESIGN.md; not shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-poster.html"
+        ],
+        "createdAt": "2026-11-07T10:48:06.228Z",
+        "reason": "Model judgment: spent direction-round sketch predating DESIGN.md; not shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-07T10:48:06.295Z",
+        "reason": "Model judgment: spent direction-round sketch predating DESIGN.md; not shipped"
+      }
+    ]
+  }
+}
