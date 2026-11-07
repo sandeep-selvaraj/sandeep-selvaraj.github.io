@@ -33,88 +33,164 @@ interface Props {
 }
 
 const { headline, paragraphs, tags, location, ethnicity, education = [], experience = [] } = Astro.props;
-const details = [location, ethnicity].filter(Boolean).join(' \u00B7 ');
+const details = [location, ethnicity].filter(Boolean).join(' · ');
+
+// --- Entity extraction for the Experience section ---------------------------
+const METHOD_VOCAB = [
+  'zero-shot', 'fine-tuning', 'automated prompt tuning', 'prompt tuning', 'RAG',
+  'MLOps', 'quantization', 'LoRA', 'RoPE', 'multi-modal', 'self-hosting',
+  'information extraction', 'benchmark'
+];
+
+const ESC: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const escapeHtml = (s: string) => s.replace(/[&<>"']/g, c => ESC[c]);
+const reEsc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+type Ent = { term: string; kind: 'stack' | 'method' };
+
+function roleEntities(desc: string[], stack: string[]): Ent[] {
+  const text = desc.join(' \n ');
+  const out: Ent[] = [];
+  const seen = new Set<string>();
+  const scan = (vocab: string[], kind: Ent['kind']) => {
+    for (const t of vocab) {
+      if (t.length < 3 || /[()]/.test(t)) continue;
+      const re = new RegExp(`(?<![A-Za-z0-9])${reEsc(t)}`, 'i');
+      if (re.test(text) && !seen.has(t.toLowerCase())) {
+        seen.add(t.toLowerCase());
+        out.push({ term: t, kind });
+      }
+    }
+  };
+  scan(stack, 'stack');
+  scan(METHOD_VOCAB, 'method');
+  // drop terms that are just a substring of another matched term (e.g. "prompt tuning")
+  return out.filter(a =>
+    !out.some(b => b !== a && b.term.toLowerCase().includes(a.term.toLowerCase()))
+  );
+}
+
+function annotate(line: string, ents: Ent[]): string {
+  if (!ents.length) return escapeHtml(line);
+  const terms = [...new Set(ents.map(e => e.term))].sort((a, b) => b.length - a.length);
+  const re = new RegExp(`((?<![A-Za-z0-9])(?:${terms.map(reEsc).join('|')}))`, 'gi');
+  return line.split(re).map((seg, i) => {
+    if (i % 2 === 0) return escapeHtml(seg);
+    const canon = terms.find(t => seg.toLowerCase().startsWith(t.toLowerCase())) || seg;
+    return `<mark class="ent" data-term="${escapeHtml(canon.toLowerCase())}">${escapeHtml(seg)}</mark>`;
+  }).join('');
+}
 ---
 
-<section class="about" id="about">
+<section class="section" id="about">
   <div class="container">
-    <div class="section-label scroll-reveal">
-      <span class="section-label__number">01</span>
-      <span class="section-label__text">About</span>
-    </div>
-    <div class="about__grid">
-      <div class="about__intro scroll-reveal">
-        <h2 class="about__headline">{headline}</h2>
-      </div>
-      <div class="about__body scroll-reveal" style="--delay: 0.15s">
-        {details && <p class="about__detail"><strong>{details}</strong></p>}
-        {paragraphs.map(p => <p>{p}</p>)}
+    <div class="slab">
+      <div class="slab__label reveal">about</div>
+      <div class="slab__body">
+        <h2 class="about__headline reveal">{headline}</h2>
+
+        <div class="prose reveal" style="--delay: 0.1s">
+          {details && <p class="about__detail">{details}</p>}
+          {paragraphs.map(p => <p>{p}</p>)}
+        </div>
+
+        {tags.length > 0 && (
+          <div class="about__domains reveal" style="--delay: 0.15s">
+            {tags.map(t => <span class="tag">{t}</span>)}
+          </div>
+        )}
 
         {experience.length > 0 && (
-          <div class="about__subsection" id="experience">
-            <div class="section-label scroll-reveal" style="margin-bottom: var(--space-sm);">
-              <span class="section-label__number">02</span>
-              <span class="section-label__text">Experience</span>
-            </div>
-            {experience.map(e => (
-              <div class="about__timeline-item about__timeline-item--rich">
-                <span class="about__timeline-years">{e.years}</span>
-                <div class="about__timeline-main">
-                  <strong>{e.role}</strong> &mdash; {e.companyUrl
-                    ? <a href={e.companyUrl} target="_blank" rel="noopener"><strong><em>{e.company}</em></strong></a>
-                    : <strong><em>{e.company}</em></strong>
-                  }
-                  {Array.isArray(e.description) && e.description.length > 0 && (
-                    <ul class="about__timeline-desc">
-                      {e.description.map(d => <li>{d}</li>)}
-                    </ul>
-                  )}
-                  {e.techstack && e.techstack.length > 0 && (
-                    <div class="about__techstack">
-                      {e.techstack.map(t => <span class="about__tech-tag">{t}</span>)}
+          <div
+            class="subblock xp-list reveal"
+            id="experience"
+            data-pos={`01 / ${String(experience.length).padStart(2, '0')} · ${experience[0].company} · ${experience[0].years}`}
+          >
+            <span class="eyebrow">Experience</span>
+            {experience.map((e, i) => {
+              const ents = roleEntities(e.description ?? [], e.techstack ?? []);
+              return (
+                <article
+                  class={`xp${i === 0 ? ' xp--focus' : ''}`}
+                  data-co={e.company}
+                  data-yr={e.years}
+                >
+                  <div class="xp__aside" aria-hidden="true">
+                    <span class="xp__idx">{String(i + 1).padStart(2, '0')} / {String(experience.length).padStart(2, '0')}</span>
+                    <span class="xp__co">{e.company}</span>
+                    <span class="xp__yr">{e.years}</span>
+                  </div>
+                  <div class="xp__main">
+                    <h4 class="xp__head">
+                      <span class="xp__role">{e.role}</span>
+                      <span class="xp__at">{e.companyUrl
+                        ? <a class="link" href={e.companyUrl} target="_blank" rel="noopener">{e.company}</a>
+                        : e.company}</span>
+                    </h4>
+                    <div class="xp__body">
+                      <div>
+                        {Array.isArray(e.description) && e.description.length > 0 && (
+                          <ul class="xp__list">
+                            {e.description.map(d => <li set:html={annotate(d, ents)} />)}
+                          </ul>
+                        )}
+                        {ents.length > 0 && (
+                          <div class="xp__refs">
+                            {(['stack', 'method'] as const).map(kind => {
+                              const group = ents.filter(x => x.kind === kind);
+                              return group.length > 0 ? (
+                                <div class="xp__refgroup">
+                                  <span class="xp__reflabel">{kind}</span>
+                                  <div class="xp__chips">
+                                    {group.map(x => (
+                                      <button class="chip" type="button" aria-pressed="false" data-term={x.term.toLowerCase()}>{x.term}</button>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : null;
+                            })}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
 
         {education.length > 0 && (
-          <div class="about__subsection" id="education">
-            <div class="section-label scroll-reveal" style="margin-bottom: var(--space-sm);">
-              <span class="section-label__number">03</span>
-              <span class="section-label__text">Education</span>
-            </div>
+          <div class="subblock" id="education">
+            <span class="eyebrow reveal">Education</span>
             {education.map(e => (
-              <div class="about__timeline-item about__timeline-item--rich">
-                <span class="about__timeline-years">{e.years}</span>
-                <div class="about__timeline-main">
-                  <strong>{e.degree}</strong> &mdash; {e.school}
+              <div class="entry reveal">
+                <span class="entry__year">{e.years}</span>
+                <div>
+                  <div class="entry__title">{e.degree} &mdash; <em>{e.school}</em></div>
                   {e.thesis && (
-                    <div class="about__timeline-detail">
-                      <span class="about__timeline-label">Thesis</span>
+                    <div class="entry__detail">
+                      <span class="entry__label">Thesis</span>
                       <span>{e.thesis}</span>
                     </div>
                   )}
                   {e.papers && e.papers.length > 0 && (
-                    <div class="about__timeline-detail">
-                      <span class="about__timeline-label">Papers</span>
-                      <ul class="about__papers">
+                    <div class="entry__detail">
+                      <span class="entry__label">Papers</span>
+                      <ul class="papers">
                         {e.papers.map(p => (
                           <li>
                             {p.url
-                              ? <a href={p.url} target="_blank" rel="noopener">{p.title}</a>
-                              : <span>{p.title}</span>
-                            }
+                              ? <a class="link" href={p.url} target="_blank" rel="noopener">{p.title}</a>
+                              : <span>{p.title}</span>}
                           </li>
                         ))}
                       </ul>
                     </div>
                   )}
                   {e.notes && (
-                    <div class="about__timeline-detail">
-                      <span class="about__timeline-note">{e.notes}</span>
+                    <div class="entry__detail">
+                      <span class="entry__note">{e.notes}</span>
                     </div>
                   )}
                 </div>
@@ -123,9 +199,63 @@ const details = [location, ethnicity].filter(Boolean).join(' \u00B7 ');
           </div>
         )}
       </div>
-      <div class="about__domains scroll-reveal" style="--delay: 0.25s">
-        {tags.map(t => <div class="domain-tag">{t}</div>)}
-      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const list = document.querySelector('.xp-list');
+  if (list) {
+    const ents = Array.from(list.querySelectorAll('.ent'));
+
+    // Entity highlighting — available in every mode
+    list.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const term = chip.getAttribute('data-term');
+        const on = chip.getAttribute('aria-pressed') !== 'true';
+        chip.setAttribute('aria-pressed', String(on));
+        ents.forEach(el => {
+          if (el.getAttribute('data-term') === term) el.classList.toggle('is-lit', on);
+        });
+      });
+    });
+
+    // Focus-scroll — only with a pointer-friendly width and motion allowed
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wide = window.matchMedia('(min-width: 721px)').matches;
+
+    if (!reduce && wide) {
+      const items = Array.from(list.querySelectorAll<HTMLElement>('.xp'));
+      list.classList.add('is-live');
+      let cur = -1;
+      let ticking = false;
+
+      const update = () => {
+        ticking = false;
+        const mid = window.innerHeight / 2;
+        let best = 0, bestDist = Infinity;
+        items.forEach((it, i) => {
+          const r = it.querySelector('.xp__head')!.getBoundingClientRect();
+          const d = Math.abs((r.top + r.bottom) / 2 - mid);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        if (best !== cur) {
+          cur = best;
+          items.forEach((it, i) => it.classList.toggle('xp--focus', i === best));
+          const it = items[best];
+          list.setAttribute(
+            'data-pos',
+            `${String(best + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')} · ${it.dataset.co} · ${it.dataset.yr}`
+          );
+        }
+      };
+
+      const onScroll = () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    }
+  }
+</script>
